@@ -124,3 +124,5 @@ def decipher(x):
         if i == ext_chars[25]:
             x = x.replace(ext_chars[25],alphabets[25])
     return x
+
+# stupid ciphers that we dont need

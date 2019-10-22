@@ -1,11 +1,21 @@
 
-# The function requires a path to .ozone file
-
 import os.path, time
 
 def give_date(path_to_ozone):
-    date_modified = time.ctime(os.path.getmtime(path_to_ozone))
-    date_created = time.ctime(os.path.getctime(path_to_ozone))
-    return date_created, date_modified
+    try:
+        path = path_to_ozone
+        path += "access.ozone"
+        date_modified = time.ctime(os.path.getmtime(path))
+        date_created = time.ctime(os.path.getctime(path))
+        return date_created, date_modified
+    except FileNotFoundError:
+        return "file deleted or renamed", False
 
-#returns date created & date modified
+
+# give_data()
+#    <> Takes path to .ozone file
+#    <> returns date created & date modified
+#    <> returns ('file deleted or renamed', false)
+#          |- returns a tuple 
+
+#print(give_date("I://"))
