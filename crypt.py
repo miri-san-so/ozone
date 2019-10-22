@@ -38,7 +38,7 @@ def give_ciphered_counter(current_counter):
 
 def give_new_key(current_counter):
     key_data = give_data()
-    key_counter = give_counter(current_counter)
+    key_counter = give_ciphered_counter(current_counter)
     key = key_data + key_counter
     return key
 
