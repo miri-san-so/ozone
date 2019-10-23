@@ -21,14 +21,22 @@ def locate_usb():
                 drive_list.append(drname)
     return drive_list
 
-def find_file(drive_list):
+def find_file(drive):
     # Checks for file in the drive list 
-    for i in drive_list:
-        os.chdir(r'{}'.format(i))
-        if glob.glob('*.ozone'):
-            return True
-        else:
-            return False
+    #for i in drive_list:
+    i = drive
+    os.chdir(r'{}'.format(i))
+    if glob.glob('access.'):
+        return True
+    else:
+        return False
+
+def new_usb_connected():
+    if locate_usb() == []:
+        return False
+    else:
+        return True
+
 
 # locate_usb() 
 #    <>returns the list of removable drives
