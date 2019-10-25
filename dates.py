@@ -7,7 +7,7 @@ def give_date(path_to_ozone):
         path += "access.ozone"
         date_modified = time.ctime(os.path.getmtime(path))
         date_created = time.ctime(os.path.getctime(path))
-        return date_created, date_modified
+        return date_modified
     except FileNotFoundError:
         return "file deleted or renamed", False
 

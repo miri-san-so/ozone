@@ -1,9 +1,6 @@
 def write_on_file(path_to_ozone,key):
-    import ctypes
-    FILE_ATTRIBUTE_HIDDEN = 0x02
     f = open("{}access".format(path_to_ozone),'w')
     f.write("{}".format(key))
-    ctypes.windll.kernel32.SetFileAttributesW('{}access.ozone'.format(path_to_ozone),FILE_ATTRIBUTE_HIDDEN)
     f.close()
     return True
 

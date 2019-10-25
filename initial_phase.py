@@ -26,7 +26,9 @@ def create_window():    # function to create main window
         else:               # if the password length is more than 8
             import os
             import json
-            
+            import ctypes
+    
+
             dir = os.getcwd()   # gets current directory
 
             counter = 0         # initalize counter with 0 as its the setup phase
@@ -35,10 +37,13 @@ def create_window():    # function to create main window
 
             encrypt_file("{}access".format(drive))  # encrypting the key on the USB
 
+            FILE_ATTRIBUTE_HIDDEN = 0x02
+            ctypes.windll.kernel32.SetFileAttributesW('{}access.ozone'.format(drive),FILE_ATTRIBUTE_HIDDEN)
+
             alias = alias       # stores alias by user
             password = pwd      # stores password by user
             drive = drive       # stores the drive selected
-            date_modified = give_date("{}access".format(drive)) # Get the modified date of the file on USB
+            date_modified = give_date("{}".format(drive)) # Get the modified date of the file on USB
 
             data_dict = {"alias": "{}".format(alias), "pwd": "{}".format(password), "counter": "0", "initial_key": "{}".format(
                 new_key), "drive": "{}".format(drive), "new_key": "{}".format(new_key), "date_modified": "{}".format(date_modified)}
