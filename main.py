@@ -1,7 +1,7 @@
-from usb import *
 from file_rw import *
-from crypt import *
-from tkinter import *
+from crypt import give_new_key
+from tkinter import Frame, Entry, Label, Tk
+from usb import new_usb_connected, locate_usb, find_file
 
 
 while new_usb_connected() == False:

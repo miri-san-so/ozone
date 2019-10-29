@@ -97,9 +97,6 @@ def create_window():    # function to create main window
     def close(root):
         root.destroy()
 
-    def close2(root):
-        root.destroy()
-
     # Ozone Label
     ozone = Label(t, text="l  e  t  s    c  r  e  a  t  e    y  o  u  r    o  z  o n  e    k  e  y .", font=(
         "Helvetica", 12), fg="#8fdcdf", bg="#1a1a1a")

@@ -50,4 +50,4 @@ def decrypt_file(file_name):
 
 
 #encrypt_file("test_img.jpg")
-#decrypt_file("0xMxY.ozone")
+#decrypt_file("curwd.ozone")

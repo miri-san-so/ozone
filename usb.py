@@ -24,12 +24,13 @@ def locate_usb():
 def find_file(drive):
     # Checks for file in the drive list 
     #for i in drive_list:
-    i = drive
-    os.chdir(r'{}'.format(i))
-    if glob.glob('access.'):
+    os.chdir(drive)     
+    if glob.glob("*.ozone") != "":
         return True
     else:
         return False
+
+
 
 def new_usb_connected():
     if locate_usb() == []:
