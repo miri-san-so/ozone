@@ -5,7 +5,7 @@ def write_on_file(path_to_ozone,key):
     return True
 
 def read_from_file(path_to_ozone):
-    f = open("{}access".format(path_to_ozone),'r')
+    f = open("{}access.ozone".format(path_to_ozone),'r')
     key = f.read()
     f.close()
     return key

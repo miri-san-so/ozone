@@ -30,8 +30,6 @@ def find_file(drive):
     else:
         return False
 
-
-
 def new_usb_connected():
     if locate_usb() == []:
         return False
