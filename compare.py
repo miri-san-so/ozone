@@ -9,6 +9,8 @@ def get_curwd_values():
     # key for decryption (not needed provided already in ozone_aes.py)
     #key = b'[MX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)n\xdf\xcb\xc4\x94\x9d(\x9e'
 
+    print(os.getcwd())    
+
     # Decrypt the file 
     decrypt_file("curwd.ozone")
 
@@ -42,5 +44,5 @@ def get_access_values():
         with open("{}access".format(drive), "r") as f:
             key = f.read()
         x = decipher(key)
-        encrypt_file("I://access")                                                                  
+        encrypt_file("{}/access".format(drive))                                                                  
     return x

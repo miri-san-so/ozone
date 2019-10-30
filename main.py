@@ -3,33 +3,112 @@ from crypt import give_new_key
 from tkinter import Frame, Entry, Label, Tk, Button
 from usb import new_usb_connected, locate_usb, find_file
 from compare import get_access_values, get_curwd_values
-import os
+from ozone_aes import decrypt_file, encrypt_file
+from cipher import decipher
+import os, glob, json
 
-x = os.getcwd()
+def give_correct_drive(drive):
+    # Checks for file in the drive list 
+    #for i in drive_list:
+    os.chdir(drive)     
+    if glob.glob("*.ozone") != "":
+        return drive
+    else:
+        return False
+
+workin_dir = os.getcwd()
 
 def get_value(pwd):
+    
+    drives = locate_usb()
+    
     # Gets the password 
     recieved_password = pwd
     print("recieved password : ",recieved_password)
     
-    # Gets the passwotd, counter and the key
+    # Gets the passwotd, counter and the key from curwd
     curwd_file_password, curwd_file_counter, curwd_file_key = get_curwd_values()
-    print(curwd_file_counter)    
-    print(curwd_file_password)
-    
-    # seprates the key
-    curwd_file_key = curwd_file_key.split("\.//")
-    curwd_file_key = curwd_file_key[0]    
-    print(curwd_file_key)    
+    print("curwd password : ",curwd_file_password)
     
     # compares password
     if recieved_password == curwd_file_password:
-        print("password same")
+        
+        print("password same")        
+        
+        # seprates the key
+        curwd_file_key = curwd_file_key.split("[$].//")
+        curwd_file_key = curwd_file_key[0]    
+        print("curwd counter : ",curwd_file_counter," type = ",type(curwd_file_counter))    
+        print("curwd old key : ",curwd_file_key)    
+        curwd_file_counter = int(curwd_file_counter)
+ 
         access_file_key, access_file_counter = get_access_values()
-        print(access_file_key)
-        print(access_file_counter)
+        print("access file key : ",access_file_key)
+        print("access file counter : ",access_file_counter)
+        access_file_counter = int(access_file_counter)
+        
         if access_file_counter == curwd_file_counter and access_file_key == curwd_file_key:
             
+            for i in drives:
+                drive_found = give_correct_drive(i)
+                if drive_found == False:
+                    print("File not found")
+                else:
+                    new_counter = curwd_file_counter + 1
+                    ###[ W R I T I N G   F O R    A C C E S S  F I L E  ]###
+                    print("\n-------------\nfor access file")
+                    
+                    # Making new Key    [Passing curwd counter] 
+                    print("created new key...")
+                    new_key = give_new_key(new_counter)
+                    print("new_key for access file : ",new_key)
+                    # Decrypting file 
+                    print("decrypting file...")
+                    decrypt_file("{}access.ozone".format(drive_found))
+                    
+                    # Writing the key on file
+                    print("writing on file...")
+                    write_on_file(drive_found, new_key)
+                    print("new key in access file : ", new_key)
+                    
+                    # Encrypting the file again
+                    print("encrypting...")
+                    encrypt_file("{}access".format(drive_found))   
+                    
+                    
+                    ###[ W R I T I N G    F O R    C U R W D   F I L E  ]###
+                    print("\n-----------\nfor curwd file...")         
+                               
+                    # Decrypting the Curwd file
+                    print("Decrypting curwd...")
+                    decrypt_file("{}\curwd.ozone".format(workin_dir))
+
+                    # Read the Values of the file 
+                    with open("{}\curwd".format(workin_dir), "r") as f:
+                        x = f.readlines()
+
+                    # Initialize a Empty String to store the values
+                    file_content = ""
+                    
+                    # Convert List to String 
+                    for elements in x:
+                        file_content += elements
+                        
+                    print("making json...")
+                    data = json.loads(file_content)
+                    data['new_key'] = new_key
+                    data['counter'] = new_counter
+                    print("curwd new key : ",new_key)
+                    
+                    with open("{}\\curwd".format(workin_dir), "w") as f:
+                        print("writing on curwd...")
+                        data_for_curwd = json.dumps(data)
+                        print(data_for_curwd)
+                        f.write(data_for_curwd)
+                    
+                    print("encrypting the curwd...")
+                    encrypt_file("{}/curwd".format(workin_dir))
+                    
             print("verified")
             new = Tk()
             new.geometry('900x500')

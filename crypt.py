@@ -10,7 +10,7 @@ def give_ciphered_counter(current_counter):
     main_list = ["-hcum","-tantropmi","-yranoityulover","-saedi","-eht","-yaw","-ot","-egnahc","-ruo","-dlrow"]
 
     updated_counter=list(str(current_counter))
-    c = "\\.//"
+    c = "[$].//"
     cypher = ""
     for i in updated_counter:
         if i == "0":
@@ -42,10 +42,11 @@ def give_new_key(current_counter):
     key = key_data + key_counter
     return key
 
+
 def decipher(key):
     flag = 0
     #extracting counter elements from the key
-    key = key.split("\\.//")
+    key = key.split("[$].//")
     if len(key) == 2:
         deciphered_data = key[0]
         counter_list = key[1]
